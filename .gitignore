@@ -1,13 +1,5 @@
-# Visual Basic 6.0 files
-*.exe
-*.scc
-*.vbw
-
 # Visual Studio files
 .vs/
 bin/
 obj/
 *.user
-
-# "Database" files
-OrderServer/DB_*.TXT
