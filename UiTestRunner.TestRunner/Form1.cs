@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UiTestRunner.TestFramework;
 
-namespace UiTestRunner
+namespace UiTestRunner.TestRunner
 {
     public partial class Form1 : Form
     {
@@ -25,7 +25,10 @@ namespace UiTestRunner
 
         private async void RunClientTestButton_Click(object sender, EventArgs e)
         {
-            var classes = Assembly.GetExecutingAssembly().GetTypes()
+            var thisAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var assemblyPath = Path.Join(thisAssemblyDirectory, @"..\..\..\..", @"UiTestRunner.Tests\bin\Debug\net5.0\UiTestRunner.Tests.dll");
+
+            var classes = Assembly.LoadFile(assemblyPath).GetTypes()
                 .Where(t => t.Namespace.EndsWith(".Tests", StringComparison.Ordinal))
                 .ToArray();
 
@@ -110,7 +113,7 @@ namespace UiTestRunner
             }
         }
 
-        private void testResultsDataGridView_SelectionChanged(object sender, EventArgs e)
+        private void TestResultsDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (testResultsDataGridView.SelectedRows.Count > 0)
             {
@@ -122,16 +125,24 @@ namespace UiTestRunner
                 const string DIRECTORY_PATH = @"..\..\..\Tests\Approval\";
                 const string FILE_FORMAT = "{0}_{1}_*_{2}.bmp";
                 string actualFileNamePattern = string.Format(FILE_FORMAT, className, testName, "actual");
-                var files = Directory.GetFiles(DIRECTORY_PATH, actualFileNamePattern, SearchOption.TopDirectoryOnly);
-                if (files.Length > 0)
+                try
                 {
-                    actualImageFile = files.First();
-                    expectedImageFile = actualImageFile.Replace("_actual.bmp", "_expected.bmp");
+                    var files = Directory.GetFiles(DIRECTORY_PATH, actualFileNamePattern, SearchOption.TopDirectoryOnly);
+                    if (files.Length > 0)
+                    {
+                        actualImageFile = files.First();
+                        expectedImageFile = actualImageFile.Replace("_actual.bmp", "_expected.bmp");
 
-                    expectedPictureBox.Image = ImageFromFile(expectedImageFile);
-                    actualPictureBox.Image = ImageFromFile(actualImageFile);
+                        expectedPictureBox.Image = ImageFromFile(expectedImageFile);
+                        actualPictureBox.Image = ImageFromFile(actualImageFile);
+                    }
+                    else
+                    {
+                        expectedPictureBox.Image = null;
+                        actualPictureBox.Image = null;
+                    }
                 }
-                else
+                catch (DirectoryNotFoundException)
                 {
                     expectedPictureBox.Image = null;
                     actualPictureBox.Image = null;
@@ -153,7 +164,7 @@ namespace UiTestRunner
             return img;
         }
 
-        private void approveNewChangeButton_Click(object sender, EventArgs e)
+        private void ApproveNewChangeButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to replace the current expected image with the new actual image?", "UI Approval Test Runner", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {

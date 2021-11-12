@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace UiTestRunner.TestFramework
 {
     [Serializable]
-    internal class AssertException : Exception
+    public class AssertException : Exception
     {
         public AssertException()
         {

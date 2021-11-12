@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestFramework\**" />
+    <EmbeddedResource Remove="TestFramework\**" />
+    <None Remove="TestFramework\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UiTestRunner.TestFramework\UiTestRunner.TestFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

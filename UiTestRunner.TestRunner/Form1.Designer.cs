@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace UiTestRunner
+namespace UiTestRunner.TestRunner
 {
     partial class Form1
     {
@@ -225,7 +225,7 @@ namespace UiTestRunner
             this.testResultsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.testResultsDataGridView.Size = new System.Drawing.Size(672, 190);
             this.testResultsDataGridView.TabIndex = 7;
-            this.testResultsDataGridView.SelectionChanged += new System.EventHandler(this.testResultsDataGridView_SelectionChanged);
+            this.testResultsDataGridView.SelectionChanged += new System.EventHandler(this.TestResultsDataGridView_SelectionChanged);
             // 
             // classNameTextBoxColumn
             // 
@@ -377,7 +377,7 @@ namespace UiTestRunner
             this.approveNewChangeButton.TabIndex = 13;
             this.approveNewChangeButton.Text = "Approve New Change";
             this.approveNewChangeButton.UseVisualStyleBackColor = true;
-            this.approveNewChangeButton.Click += new System.EventHandler(this.approveNewChangeButton_Click);
+            this.approveNewChangeButton.Click += new System.EventHandler(this.ApproveNewChangeButton_Click);
             // 
             // Form1
             // 

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace UiTestRunner
+namespace UiTestRunner.TestRunner
 {
     static class Program
     {

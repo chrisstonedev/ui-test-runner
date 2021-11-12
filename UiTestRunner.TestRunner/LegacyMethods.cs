@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace UiTestRunner
+namespace UiTestRunner.TestRunner
 {
     public static class LegacyMethods
     {

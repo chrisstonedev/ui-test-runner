@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UiTestRunner
+namespace UiTestRunner.TestRunner
 {
     public class AutomationControl
     {

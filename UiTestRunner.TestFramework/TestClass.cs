@@ -86,7 +86,7 @@ namespace UiTestRunner.TestFramework
             _ = SendMessage(hwndChild, WM_SETTEXT, IntPtr.Zero, text);
         }
 
-        internal static void CloseWindow(string windowName)
+        public static void CloseWindow(string windowName)
         {
             int hwnd = FindWindow(null, windowName);
             if (hwnd == 0)
@@ -97,7 +97,7 @@ namespace UiTestRunner.TestFramework
             CloseWindow(hwnd);
         }
 
-        internal static void CloseWindow(int hwnd)
+        public static void CloseWindow(int hwnd)
         {
             _ = SendMessage((IntPtr)hwnd, WM_CLOSE, 0, IntPtr.Zero);
         }
