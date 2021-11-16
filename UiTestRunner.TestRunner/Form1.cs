@@ -34,22 +34,24 @@ namespace UiTestRunner.TestRunner
 
             foreach (var type in classes)
             {
-                foreach (var method in type.GetMethods())
+                foreach (var method in type.GetMethods().Where(MethodHasTestRunAttribute))
                 {
-                    if (method.GetCustomAttribute(typeof(TestRunAttribute), false) != null)
+                    try
                     {
-                        try
-                        {
-                            await (method.Invoke(null, null) as Task);
-                            SetTestStatus(type.Name, method.Name, true, DateTime.Now.ToString(CultureInfo.InvariantCulture));
-                        }
-                        catch (Exception ex)
-                        {
-                            SetTestStatus(type.Name, method.Name, false, ex.ToString());
-                        }
+                        await (method.Invoke(null, null) as Task);
+                        SetTestStatus(type.Name, method.Name, true, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (Exception ex)
+                    {
+                        SetTestStatus(type.Name, method.Name, false, ex.ToString());
                     }
                 }
             }
+        }
+
+        private bool MethodHasTestRunAttribute(MethodInfo method)
+        {
+            return method.GetCustomAttribute(typeof(TestRunAttribute), false) is not null;
         }
 
         private void SetTestStatus(string className, string testName, bool wasSuccessful, string data)
