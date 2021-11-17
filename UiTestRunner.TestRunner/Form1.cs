@@ -26,11 +26,9 @@ namespace UiTestRunner.TestRunner
         private async void RunClientTestButton_Click(object sender, EventArgs e)
         {
             var thisAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var assemblyPath = Path.Join(thisAssemblyDirectory, @"..\..\..\..", @"UiTestRunner.Tests\bin\Debug\net5.0\UiTestRunner.Tests.dll");
+            var assemblyPath = Path.Join(thisAssemblyDirectory, @"..\..\..\..\..", @"technical-debt\OrderCore.Client.UiTests\bin\Debug\net6.0-windows\OrderCore.Client.UiTests.dll");
 
-            var classes = Assembly.LoadFile(assemblyPath).GetTypes()
-                .Where(t => t.Namespace.EndsWith(".Tests", StringComparison.Ordinal))
-                .ToArray();
+            var classes = Assembly.LoadFile(assemblyPath).GetTypes().ToArray();
 
             foreach (var type in classes)
             {
@@ -124,12 +122,13 @@ namespace UiTestRunner.TestRunner
                 var testName = selectedRow.Cells[1].Value.ToString();
                 errorDetailsTextBox.Text = errorText[(className, testName)];
 
-                const string DIRECTORY_PATH = @"..\..\..\Tests\Approval\";
+                string executingAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string directoryPath = Path.Join(executingAssemblyDirectory, @"..\..\..\..\..\technical-debt\OrderCore.Client.UiTests\Approval");
                 const string FILE_FORMAT = "{0}_{1}_*_{2}.bmp";
                 string actualFileNamePattern = string.Format(FILE_FORMAT, className, testName, "actual");
                 try
                 {
-                    var files = Directory.GetFiles(DIRECTORY_PATH, actualFileNamePattern, SearchOption.TopDirectoryOnly);
+                    var files = Directory.GetFiles(directoryPath, actualFileNamePattern, SearchOption.TopDirectoryOnly);
                     if (files.Length > 0)
                     {
                         actualImageFile = files.First();

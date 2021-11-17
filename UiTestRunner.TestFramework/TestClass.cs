@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -117,9 +118,11 @@ namespace UiTestRunner.TestFramework
         {
             var bitmap = GetWindowBitmap(window);
 
-            const string FILE_PATH_FORMAT = @"..\..\..\Tests\Approval\{0}_{1}_{2}_{3}.bmp";
-            string actualPath = string.Format(FILE_PATH_FORMAT, className, testName, stepName, "actual");
-            string expectedPath = string.Format(FILE_PATH_FORMAT, className, testName, stepName, "expected");
+            const string FILE_NAME_FORMAT = "{0}_{1}_{2}_{3}.bmp";
+            string executingAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string filePath = Path.Join(executingAssemblyDirectory, @"..\..\..\..\..\technical-debt\OrderCore.Client.UiTests\Approval", FILE_NAME_FORMAT);
+            string actualPath = string.Format(filePath, className, testName, stepName, "actual");
+            string expectedPath = string.Format(filePath, className, testName, stepName, "expected");
 
             bitmap.Save(actualPath);
             var actualBytes = File.ReadAllBytes(actualPath);
